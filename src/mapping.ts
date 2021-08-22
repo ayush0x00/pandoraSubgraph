@@ -1,72 +1,13 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt, Entity, log, json } from "@graphprotocol/graph-ts";
 import {
   Contract,
   Approval,
   ApprovalForAll,
   OwnershipTransferred,
   SecondarySaleFees,
-  Transfer
-} from "../generated/Contract/Contract"
-import { ExampleEntity } from "../generated/schema"
-
-export function handleApproval(event: Approval): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity.owner = event.params.owner
-  entity.approved = event.params.approved
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.balanceOf(...)
-  // - contract.contractURI(...)
-  // - contract.fees(...)
-  // - contract.getApproved(...)
-  // - contract.getFeeBps(...)
-  // - contract.getFeeRecipients(...)
-  // - contract.isApprovedForAll(...)
-  // - contract.isOwner(...)
-  // - contract.name(...)
-  // - contract.owner(...)
-  // - contract.ownerOf(...)
-  // - contract.supportsInterface(...)
-  // - contract.symbol(...)
-  // - contract.tokenByIndex(...)
-  // - contract.tokenOfOwnerByIndex(...)
-  // - contract.tokenURI(...)
-  // - contract.tokenURIPrefix(...)
-  // - contract.totalSupply(...)
-}
+  Transfer,
+} from "../generated/Contract/Contract";
+import { TokenTransfer, TokenInfo } from "../generated/schema";
 
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
@@ -74,4 +15,35 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
 export function handleSecondarySaleFees(event: SecondarySaleFees): void {}
 
-export function handleTransfer(event: Transfer): void {}
+export function handleTransfer(event: Transfer): void {
+  // let transfer = new TokenTransfer(event.params.tokenId.toString());
+  // transfer.from = event.params.from.toHexString();
+  // transfer.to = event.params.to.toHexString();
+  // transfer.transferredAt = event.block.timestamp;
+  // transfer.tokenId = event.params.tokenId;
+  log.debug("Transfer occured", [event.params.tokenId.toString()]);
+  let tokenInfo = TokenInfo.load(event.params.tokenId.toString());
+
+  if (!tokenInfo) {
+    log.debug("Creating new token", []);
+    tokenInfo = new TokenInfo(event.params.tokenId.toString());
+    tokenInfo.contractAddress = event.address.toHexString();
+    tokenInfo.creatorAddress = event.params.to.toHexString();
+    tokenInfo.blockNumber = event.block.number;
+    tokenInfo.mintTransactionHash = event.transaction.hash.toHexString();
+    tokenInfo.createdOn = event.block.timestamp;
+    tokenInfo.owner = event.params.to.toHexString();
+    tokenInfo.lastTransfer = event.block.timestamp;
+    tokenInfo.numberOfTransfers = 1;
+    // tokenInfo.transfers.push(transfer.toString());
+  }
+  log.debug("Using existing token", []);
+  tokenInfo.numberOfTransfers = tokenInfo.numberOfTransfers + 1;
+  tokenInfo.owner = event.params.to.toHexString();
+  tokenInfo.lastTransfer = event.block.timestamp;
+  tokenInfo.blockNumber = event.block.timestamp;
+  //tokenInfo.transfers.push(json.fromBytes(transfer).toString());
+  // const tokenContract = Contract.bind(event.address);
+  // tokenInfo.tokenURI = tokenContract.tokenURI(event.params.tokenId);
+  tokenInfo.save();
+}

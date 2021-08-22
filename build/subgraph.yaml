@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Rarible
@@ -18,11 +18,11 @@ dataSources:
         - TokenInfo
       abis:
         - name: Rarible
-          file: ./abis/Rarible.json
+          file: Rarible/abis/Rarible.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: ./src/mapping.ts
+      file: Rarible/Rarible.wasm
   - kind: ethereum/contract
     name: Foundation
     network: mainnet
@@ -39,8 +39,8 @@ dataSources:
         - TokenInfo
       abis:
         - name: Foundation
-          file: ./abis/Rarible.json
+          file: Foundation/abis/Rarible.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: ./src/mapping.ts
+      file: Rarible/Rarible.wasm

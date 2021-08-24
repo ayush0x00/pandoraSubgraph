@@ -180,4 +180,49 @@ export class TokenInfo extends Entity {
   set numberOfTransfers(value: i32) {
     this.set("numberOfTransfers", Value.fromI32(value));
   }
+
+  get tokenURI(): string {
+    let value = this.get("tokenURI");
+    return value.toString();
+  }
+
+  set tokenURI(value: string) {
+    this.set("tokenURI", Value.fromString(value));
+  }
+
+  get transferredFrom(): Array<string> {
+    let value = this.get("transferredFrom");
+    return value.toStringArray();
+  }
+
+  set transferredFrom(value: Array<string>) {
+    this.set("transferredFrom", Value.fromStringArray(value));
+  }
+
+  get transferredTo(): Array<string> {
+    let value = this.get("transferredTo");
+    return value.toStringArray();
+  }
+
+  set transferredTo(value: Array<string>) {
+    this.set("transferredTo", Value.fromStringArray(value));
+  }
+
+  get transferredAt(): Array<BigInt> {
+    let value = this.get("transferredAt");
+    return value.toBigIntArray();
+  }
+
+  set transferredAt(value: Array<BigInt>) {
+    this.set("transferredAt", Value.fromBigIntArray(value));
+  }
+
+  get tokenIds(): Array<BigInt> {
+    let value = this.get("tokenIds");
+    return value.toBigIntArray();
+  }
+
+  set tokenIds(value: Array<BigInt>) {
+    this.set("tokenIds", Value.fromBigIntArray(value));
+  }
 }

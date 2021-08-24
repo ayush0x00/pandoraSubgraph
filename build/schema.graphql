@@ -16,4 +16,9 @@ type TokenInfo @entity {
   createdOn: BigInt!
   lastTransfer: BigInt!
   numberOfTransfers: Int!
+  tokenURI: String!
+  transferredFrom: [String!]!
+  transferredTo: [String!]!
+  transferredAt: [BigInt!]!
+  tokenIds: [BigInt!]!
 }

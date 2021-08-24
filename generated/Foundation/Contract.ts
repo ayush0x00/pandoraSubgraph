@@ -136,7 +136,7 @@ export class Transfer__Params {
   }
 }
 
-export class Foundation__feesResult {
+export class Contract__feesResult {
   value0: Address;
   value1: BigInt;
 
@@ -153,9 +153,9 @@ export class Foundation__feesResult {
   }
 }
 
-export class Foundation extends ethereum.SmartContract {
-  static bind(address: Address): Foundation {
-    return new Foundation("Foundation", address);
+export class Contract extends ethereum.SmartContract {
+  static bind(address: Address): Contract {
+    return new Contract("Contract", address);
   }
 
   balanceOf(owner: Address): BigInt {
@@ -192,13 +192,13 @@ export class Foundation extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
-  fees(param0: BigInt, param1: BigInt): Foundation__feesResult {
+  fees(param0: BigInt, param1: BigInt): Contract__feesResult {
     let result = super.call("fees", "fees(uint256,uint256):(address,uint256)", [
       ethereum.Value.fromUnsignedBigInt(param0),
       ethereum.Value.fromUnsignedBigInt(param1)
     ]);
 
-    return new Foundation__feesResult(
+    return new Contract__feesResult(
       result[0].toAddress(),
       result[1].toBigInt()
     );
@@ -207,7 +207,7 @@ export class Foundation extends ethereum.SmartContract {
   try_fees(
     param0: BigInt,
     param1: BigInt
-  ): ethereum.CallResult<Foundation__feesResult> {
+  ): ethereum.CallResult<Contract__feesResult> {
     let result = super.tryCall(
       "fees",
       "fees(uint256,uint256):(address,uint256)",
@@ -221,7 +221,7 @@ export class Foundation extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Foundation__feesResult(value[0].toAddress(), value[1].toBigInt())
+      new Contract__feesResult(value[0].toAddress(), value[1].toBigInt())
     );
   }
 

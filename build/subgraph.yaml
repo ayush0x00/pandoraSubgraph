@@ -3,11 +3,11 @@ schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Rarible
+    name: Contract
     network: mainnet
     source:
       address: "0x60f80121c31a0d46b5279700f9df786054aa5ee5"
-      abi: Rarible
+      abi: Contract
       startBlock: 13010000
     mapping:
       kind: ethereum/events
@@ -17,18 +17,18 @@ dataSources:
         - TokenTransfer
         - TokenInfo
       abis:
-        - name: Rarible
-          file: Rarible/abis/Rarible.json
+        - name: Contract
+          file: Contract/abis/Contract.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: Rarible/Rarible.wasm
+      file: Contract/Contract.wasm
   - kind: ethereum/contract
     name: Foundation
     network: mainnet
     source:
       address: "0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405"
-      abi: Foundation
+      abi: Contract
       startBlock: 13010000
     mapping:
       kind: ethereum/events
@@ -38,9 +38,9 @@ dataSources:
         - TokenTransfer
         - TokenInfo
       abis:
-        - name: Foundation
-          file: Foundation/abis/Rarible.json
+        - name: Contract
+          file: Foundation/abis/Contract.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: Rarible/Rarible.wasm
+      file: Contract/Contract.wasm

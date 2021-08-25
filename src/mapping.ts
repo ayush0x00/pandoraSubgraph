@@ -3,6 +3,9 @@ import { Contract, Transfer } from "../generated/Contract/Contract";
 import { TokenTransfer, TokenInfo } from "../generated/schema";
 
 export function handleTransfer(event: Transfer): void {
+  let tokenTransfer = new TokenTransfer(
+    event.params.tokenId.toString() + event.address.toHexString()
+  );
   let tokenInfo = TokenInfo.load(
     event.params.tokenId.toString() + event.address.toHexString()
   );
@@ -20,10 +23,6 @@ export function handleTransfer(event: Transfer): void {
     tokenInfo.owner = event.params.to.toHexString();
     tokenInfo.lastTransfer = event.block.timestamp;
     tokenInfo.numberOfTransfers = 1;
-    tokenInfo.transferredFrom = [event.params.from.toHexString()];
-    tokenInfo.transferredTo = [event.params.to.toHexString()];
-    tokenInfo.transferredAt = [event.block.timestamp];
-    tokenInfo.tokenIds = [event.params.tokenId];
     let tokenContract = Contract.bind(event.address);
     tokenInfo.tokenURI = tokenContract.tokenURI(event.params.tokenId);
   } else {
@@ -32,11 +31,13 @@ export function handleTransfer(event: Transfer): void {
     tokenInfo.owner = event.params.to.toHexString();
     tokenInfo.lastTransfer = event.block.timestamp;
     tokenInfo.blockNumber = event.block.timestamp;
-    tokenInfo.transferredFrom.push(event.params.from.toHexString());
-    tokenInfo.transferredTo.push(event.params.to.toHexString());
-    tokenInfo.transferredAt.push(event.block.timestamp);
-    tokenInfo.tokenIds.push(event.params.tokenId);
   }
-
+  tokenTransfer.from = event.params.from.toHexString();
+  tokenTransfer.to = event.params.to.toHexString();
+  tokenTransfer.transferredAt = event.block.timestamp;
+  tokenTransfer.tokenId = event.params.tokenId;
+  tokenInfo.transfers =
+    event.params.tokenId.toString() + event.address.toHexString();
+  tokenTransfer.save();
   tokenInfo.save();
 }

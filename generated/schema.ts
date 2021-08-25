@@ -60,6 +60,15 @@ export class TokenTransfer extends Entity {
     this.set("to", Value.fromString(value));
   }
 
+  get transferredAt(): BigInt {
+    let value = this.get("transferredAt");
+    return value.toBigInt();
+  }
+
+  set transferredAt(value: BigInt) {
+    this.set("transferredAt", Value.fromBigInt(value));
+  }
+
   get tokenId(): BigInt {
     let value = this.get("tokenId");
     return value.toBigInt();
@@ -69,13 +78,13 @@ export class TokenTransfer extends Entity {
     this.set("tokenId", Value.fromBigInt(value));
   }
 
-  get transferredAt(): BigInt {
-    let value = this.get("transferredAt");
-    return value.toBigInt();
+  get tokenInfo(): Array<string> {
+    let value = this.get("tokenInfo");
+    return value.toStringArray();
   }
 
-  set transferredAt(value: BigInt) {
-    this.set("transferredAt", Value.fromBigInt(value));
+  set tokenInfo(value: Array<string>) {
+    this.set("tokenInfo", Value.fromStringArray(value));
   }
 }
 
@@ -190,39 +199,12 @@ export class TokenInfo extends Entity {
     this.set("tokenURI", Value.fromString(value));
   }
 
-  get transferredFrom(): Array<string> {
-    let value = this.get("transferredFrom");
-    return value.toStringArray();
+  get transfers(): string {
+    let value = this.get("transfers");
+    return value.toString();
   }
 
-  set transferredFrom(value: Array<string>) {
-    this.set("transferredFrom", Value.fromStringArray(value));
-  }
-
-  get transferredTo(): Array<string> {
-    let value = this.get("transferredTo");
-    return value.toStringArray();
-  }
-
-  set transferredTo(value: Array<string>) {
-    this.set("transferredTo", Value.fromStringArray(value));
-  }
-
-  get transferredAt(): Array<BigInt> {
-    let value = this.get("transferredAt");
-    return value.toBigIntArray();
-  }
-
-  set transferredAt(value: Array<BigInt>) {
-    this.set("transferredAt", Value.fromBigIntArray(value));
-  }
-
-  get tokenIds(): Array<BigInt> {
-    let value = this.get("tokenIds");
-    return value.toBigIntArray();
-  }
-
-  set tokenIds(value: Array<BigInt>) {
-    this.set("tokenIds", Value.fromBigIntArray(value));
+  set transfers(value: string) {
+    this.set("transfers", Value.fromString(value));
   }
 }

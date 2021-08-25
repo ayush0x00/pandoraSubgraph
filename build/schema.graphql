@@ -1,12 +1,15 @@
 type TokenTransfer @entity {
+  "position"
   id: ID!
   from: String!
   to: String!
-  tokenId: BigInt!
   transferredAt: BigInt!
+  tokenId: BigInt!
+  tokenInfo: [TokenInfo!]! @derivedFrom(field: "transfers")
 }
 
 type TokenInfo @entity {
+  "USER"
   id: ID!
   blockNumber: BigInt!
   creatorAddress: String!
@@ -17,8 +20,5 @@ type TokenInfo @entity {
   lastTransfer: BigInt!
   numberOfTransfers: Int!
   tokenURI: String!
-  transferredFrom: [String!]!
-  transferredTo: [String!]!
-  transferredAt: [BigInt!]!
-  tokenIds: [BigInt!]!
+  transfers: TokenTransfer!
 }

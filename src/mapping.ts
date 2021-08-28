@@ -4,7 +4,7 @@ import { TokenTransfer, TokenInfo } from "../generated/schema";
 
 export function handleTransfer(event: Transfer): void {
   let tokenTransfer = new TokenTransfer(
-    event.transaction.hash.toString() + event.logIndex.toString()
+    event.transaction.hash.toHexString() + event.logIndex.toString()
   );
   tokenTransfer.from = event.params.from.toHexString();
   tokenTransfer.to = event.params.to.toHexString();

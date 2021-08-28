@@ -6,30 +6,9 @@ dataSources:
     name: Contract
     network: mainnet
     source:
-      address: "0x60f80121c31a0d46b5279700f9df786054aa5ee5"
+      address: "0xa7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270"
       abi: Contract
-      startBlock: 13010000
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.4
-      language: wasm/assemblyscript
-      entities:
-        - TokenTransfer
-        - TokenInfo
-      abis:
-        - name: Contract
-          file: ./abis/Contract.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleTransfer
-      file: ./src/mapping.ts
-  - kind: ethereum/contract
-    name: Foundation
-    network: mainnet
-    source:
-      address: "0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405"
-      abi: Contract
-      startBlock: 13010000
+      startBlock: 13104000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

@@ -5,7 +5,7 @@ type TokenTransfer @entity {
   to: String!
   transferredAt: BigInt!
   tokenId: BigInt!
-  tokenInfo: [TokenInfo!]! @derivedFrom(field: "transfers")
+  tokenInfo: TokenInfo!
 }
 
 type TokenInfo @entity {
@@ -20,5 +20,5 @@ type TokenInfo @entity {
   lastTransfer: BigInt!
   numberOfTransfers: Int!
   tokenURI: String!
-  transfers: TokenTransfer!
+  transfers: [TokenTransfer!]! @derivedFrom(field: "tokenInfo")
 }

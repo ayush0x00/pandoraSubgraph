@@ -78,13 +78,13 @@ export class TokenTransfer extends Entity {
     this.set("tokenId", Value.fromBigInt(value));
   }
 
-  get tokenInfo(): Array<string> {
+  get tokenInfo(): string {
     let value = this.get("tokenInfo");
-    return value.toStringArray();
+    return value.toString();
   }
 
-  set tokenInfo(value: Array<string>) {
-    this.set("tokenInfo", Value.fromStringArray(value));
+  set tokenInfo(value: string) {
+    this.set("tokenInfo", Value.fromString(value));
   }
 }
 
@@ -199,12 +199,12 @@ export class TokenInfo extends Entity {
     this.set("tokenURI", Value.fromString(value));
   }
 
-  get transfers(): string {
+  get transfers(): Array<string> {
     let value = this.get("transfers");
-    return value.toString();
+    return value.toStringArray();
   }
 
-  set transfers(value: string) {
-    this.set("transfers", Value.fromString(value));
+  set transfers(value: Array<string>) {
+    this.set("transfers", Value.fromStringArray(value));
   }
 }

@@ -44,3 +44,45 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: Contract/Contract.wasm
+  - kind: ethereum/contract
+    name: Mintable
+    network: mainnet
+    source:
+      address: "0xfd1539ee9ccad1ab5d9b4877097cfd8221815b47"
+      abi: Contract
+      startBlock: 12550000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - TokenTransfer
+        - TokenInfo
+      abis:
+        - name: Contract
+          file: Mintable/abis/Contract.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: Contract/Contract.wasm
+  - kind: ethereum/contract
+    name: AsyncArt
+    network: mainnet
+    source:
+      address: "0xb6dae651468e9593e4581705a09c10a76ac1e0c8"
+      abi: Contract
+      startBlock: 12550000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - TokenTransfer
+        - TokenInfo
+      abis:
+        - name: Contract
+          file: AsyncArt/abis/Contract.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: Contract/Contract.wasm
